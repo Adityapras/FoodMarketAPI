@@ -26,7 +26,7 @@ class FoodController extends Controller
 
             if ($food)
             {
-                return ResponseFormatter::success($food, 'Data Produk diambil')
+                return ResponseFormatter::success($food, 'Data Produk diambil');
             }else{
                 return ResponseFormatter::error(null, 'Data produk tidak ada', 404);
             }

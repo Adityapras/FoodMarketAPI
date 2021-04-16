@@ -27,7 +27,7 @@ class TransactionController extends Controller
 
             if ($transaction)
             {
-                return ResponseFormatter::success($transaction, 'Data transaction diambil')
+                return ResponseFormatter::success($transaction, 'Data transaction diambil');
             }else{
                 return ResponseFormatter::error(null, 'Data transaction tidak ada', 404);
             }
@@ -73,7 +73,7 @@ class TransactionController extends Controller
             'user_id' => $request->user_id,
             'quantity' => $request->quantity,
             'total' => $request->total,
-            'status' => $request->proc_get_status
+            'status' => $request->status
         ]);
 
         // midtrans configurations
