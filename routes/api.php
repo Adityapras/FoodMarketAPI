@@ -1,11 +1,12 @@
 <?php
 
-use App\Http\Controllers\API\FoodController;
-use App\Http\Controllers\API\MidtransController;
-use App\Http\Controllers\API\TransactionController;
-use App\Http\Controllers\API\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\API\FoodController;
+use App\Http\Controllers\API\UserController;
+use App\Http\Controllers\API\SurahController;
+use App\Http\Controllers\API\MidtransController;
+use App\Http\Controllers\API\TransactionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,3 +37,7 @@ Route::get('food', [FoodController::class, 'all']);
 
 //midtrans
 Route::post('midtrans/callback', [MidtransController::class, 'callback']);
+
+//API AL-Qur'an
+Route::get('alquran/surah', [SurahController::class, 'index']);
+Route::get('alquran/surah/{number}', [SurahController::class, 'get_detail_surah']);

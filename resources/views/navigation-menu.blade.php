@@ -16,7 +16,7 @@
                         {{ __('Dashboard') }}
                     </x-jet-nav-link>
                 </div>
-                <!-- Navigation Links -->
+                {{-- <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-jet-nav-link href="/dashboard/users" :active="request()->routeIs('dashboard/users')">
                         {{ __('Users') }}
@@ -30,10 +30,10 @@
                 </div>
                  <!-- Navigation Links -->
                  <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-jet-nav-link href="/dashboard/transaction" :active="request()->routeIs('dashboard/transaction')">
+                    <x-jet-nav-link href="/dashboard/transactions" :active="request()->routeIs('dashboard/transactions')">
                         {{ __('Transaction') }}
                     </x-jet-nav-link>
-                </div>
+                </div> --}}
             </div>
 
             <div class="hidden sm:flex sm:items-center sm:ml-6">

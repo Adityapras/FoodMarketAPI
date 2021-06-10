@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Helpers\ResponseFormatter;
 use App\Http\Controllers\Controller;
 use App\Models\Transaction;
+use App\Models\Food;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,40 +18,37 @@ class TransactionController extends Controller
     public function all(Request $request)
     {
         $id          = $request->input('id');
-        $limit       = $request->input('limit', 6);
+        $limit       = $request->input('limit', 10);
         $food_id     = $request->input('food_id');
         $status      = $request->input('status');
 
-        if($id)
-        {
-            $transaction = Transaction::with(['food','user'])->find($id);
+        if ($id) {
+            $transaction = Transaction::with(['food', 'user'])->find($id);
 
-            if ($transaction)
-            {
+            if ($transaction) {
                 return ResponseFormatter::success($transaction, 'Data transaction diambil');
-            }else{
+            } else {
                 return ResponseFormatter::error(null, 'Data transaction tidak ada', 404);
             }
         }
 
-        $transaction = Food::with(['food','user'])->where('user_id', Auth::user()->$id);
+        $transaction = Transaction::with(['food', 'user'])->where('user_id', Auth::user()->id);
 
         if ($food_id) {
             $transaction->where('food_id', $food_id);
         }
 
         if ($status) {
-            $transaction->where('food_id', $status);
+            $transaction->where('status', $status);
         }
 
         return ResponseFormatter::success(
-            $food->paginate($limit),
+            $transaction->paginate($limit),
             'Data list transaction berhasil di ambil'
         );
-
     }
 
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
         $transaction = Transaction::findOrFail($id);
 
@@ -84,7 +82,7 @@ class TransactionController extends Controller
 
 
         //call transactions 
-        $transaction = Transaction::with(['food','user'])->find($transaction->id);
+        $transaction = Transaction::with(['food', 'user'])->find($transaction->id);
 
         //make payload for midtrans transactions
         $midtransPayload = [
@@ -102,18 +100,16 @@ class TransactionController extends Controller
 
         //sent payload to midtrans payment gateway
         try {
-            
+
             $paymentUrl = Snap::createTransaction($midtransPayload)->redirect_url;
 
             $transaction->payment_url = $paymentUrl;
             $transaction->save();
 
             return ResponseFormatter::success($transaction, 'transaksi berhasil');
-
         } catch (Exception $e) {
-            
+
             return ResponseFormatter::error($e->getMessage(), 'transaksi gagal');
         }
-
     }
 }
