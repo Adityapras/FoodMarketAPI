@@ -51,7 +51,6 @@ Route::get('send-mail', function () {
     dd("Email is Sent.");
 });
 
-
 function GenerateNavArray($arr, $parent = 0)
 {
     $pages = array();
@@ -69,14 +68,13 @@ function GenerateNavHTML($nav)
 {
     $html = '';
     foreach ($nav as $page) {
-        $html .= '<ul><li>';
+        $html .= '<ul class="sidebar-menu" id="nav-accordion"><li class="sub-menu">';
         $html .= '<a href="' . $page['link'] . '">' . $page['name'] . '</a>';
         $html .= GenerateNavHTML($page['sub']);
         $html .= '</li></ul>';
     }
     return $html;
 }
-
 
 Route::get('unlimitedmenus', function () {
     $nav = array(
@@ -113,6 +111,17 @@ Route::get('unlimitedmenus', function () {
     );
 
     $navarray = GenerateNavArray($nav);
-    // echo GenerateNavHTML($navarray);
-    dd($navarray);
+    echo GenerateNavHTML($navarray);
+    // dd($navarray);
+});
+
+Route::get('insert-menu', function () {
+
+    $menus = App\Models\Admin\Menu::all();
+    $collections = collect(GenerateNavArray($menus->toArray()));
+    $sorted = $collections->sortBy([
+        ['order', 'desc'],
+    ]);
+
+    dd($sorted->values()->all());
 });

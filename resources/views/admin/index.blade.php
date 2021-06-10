@@ -1,5 +1,9 @@
 @extends('admin.layouts.app')
 
 @section('content')
-    <h6> {{ $menu['menuList'] }} </h6>
+    @php
+        echo "<pre>";print_r($data['menu']);
+    @endphp
+
+    {{ $data['displayMenu'] }}
 @endsection
