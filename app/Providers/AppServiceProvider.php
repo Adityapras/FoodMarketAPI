@@ -30,7 +30,8 @@ class AppServiceProvider extends ServiceProvider
         $menuCollection  = collect($menu);
         $sortedMenu      = $menuCollection->sortBy([ ['order', 'asc'] ]);
         $displayMenu     = $this->GenerateNavHTML($sortedMenu);
-        View::share('data', ['menu' => $menu, 'displayMenu' => $displayMenu]);
+        $title           = 'Vue CLI Laravel';
+        View::share('data', ['menu' => $menu, 'displayMenu' => $displayMenu, 'title' => $title]);
     }
 
     function GenerateNavArray($arr, $parent = 0)
@@ -57,7 +58,7 @@ class AppServiceProvider extends ServiceProvider
                 $html .= '<li>';
             }
 
-            $html .= '<a href="' . $page['link'] . '"> <i class="' . $page['icon'] . '"></i><span>' . $page['name'] . '</span></a>';
+            $html .= '<a href="' . url($page['link']). '"> <i class="' . $page['icon'] . '"></i><span>' . $page['name'] . '</span></a>';
             if (count($page['sub'])  > 0) {
                 $html .= '<ul class="sub"><li>';
             }

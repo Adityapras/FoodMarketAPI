@@ -6,6 +6,7 @@ use App\Http\Controllers\API\MidtransController;
 use App\Http\Controllers\WebAdmin\FoodController;
 use App\Http\Controllers\WebAdmin\UsersController;
 use App\Http\Controllers\WebAdmin\DashboardController;
+use App\Http\Controllers\WebAdmin\MasterController;
 use App\Http\Controllers\WebAdmin\TransactionController;
 
 
@@ -32,7 +33,17 @@ Route::prefix('dashboard')->middleware('auth:sanctum', 'admin')->group(function 
     Route::resource('food', FoodController::class);
     Route::resource('transactions', TransactionController::class);
     Route::get('transactions/{id}/status/{status}', [TransactionController::class, 'changeStatus'])->name('transactions.changeStatus');
+    Route::get('master/menu',[MasterController::class, 'index']);
+    Route::get('menuList',[MasterController::class, 'getMenuList']);
+
 });
+
+Route::prefix('master')->middleware('auth:sanctum', 'admin')->group(function () {
+    Route::get('menu', [MasterController::class, 'index']);
+    Route::get('menu/list', [MasterController::class, 'getMenuList']);
+
+}); 
+
 Route::get('midtrans', [MidtransController::class, 'success']);
 Route::get('midtrans/unfinish', [MidtransController::class, 'unfinish']);
 Route::get('midtrans/error', [MidtransController::class, 'error']);
@@ -125,3 +136,5 @@ Route::get('insert-menu', function () {
 
     dd($sorted->values()->all());
 });
+
+
