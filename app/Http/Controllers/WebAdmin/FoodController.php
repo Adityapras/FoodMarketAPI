@@ -69,7 +69,7 @@ class FoodController extends Controller
      */
     public function edit(Food $food)
     {
-        return view('food.edit',[
+        return view('food.edit', [
             'item' => $food
         ]);
     }
@@ -85,8 +85,7 @@ class FoodController extends Controller
     {
         $data = $request->all();
 
-        if($request->file('picturePath'))
-        {
+        if ($request->file('picturePath')) {
             $data['picturePath'] = $request->file('picturePath')->store('assets/food', 'public');
         }
 
@@ -106,5 +105,11 @@ class FoodController extends Controller
         $food->delete();
 
         return redirect()->route('food.index');
+    }
+
+    public function foodList()
+    {
+        $food = Food::paginate(10);
+        return response()->json($food);
     }
 }

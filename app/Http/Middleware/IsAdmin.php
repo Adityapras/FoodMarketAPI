@@ -21,6 +21,9 @@ class IsAdmin
             return $next($request);
         }
 
+        // if (Auth::user()) {
+        //     return $next($request);
+        // }
         return redirect('/');
     }
 }

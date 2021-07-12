@@ -1,10 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\WebAdmin\Master;
+namespace App\Http\Controllers\API\Web\Master;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\Console\Input\Input;
+use Throwable;
+
 
 class MenuController extends Controller
 {
@@ -49,10 +52,27 @@ class MenuController extends Controller
 
         try {
             $menu->save();
-            return response()->json(['meta' => ['code' => 200], 'message' => 'success']);
-        } catch (exception $e) {
-            return response()->json(['meta' => ['code' => 400], 'message' =>  $e]);
+            $menu = \App\Models\Admin\Menu::find($menu->id);
+            $response = [
+                'meta' => [
+                    'code' => 200,
+                    'status'   => 'success',
+                    'message' => 'data menu is successfully created'
+                ],
+                'data' => []
+            ];
+        } catch (Throwable $e) {
+            $response = [
+                'meta' => [
+                    'code' => 400,
+                    'status'   => 'error',
+                    'message' => $e
+                ],
+                'data' => []
+            ];
         }
+
+        return response()->json($response);
     }
 
     public function update(Request $request)
@@ -67,21 +87,51 @@ class MenuController extends Controller
 
         try {
             $menu->save();
-            return response()->json(['meta' => ['code' => 200], 'message' => 'success']);
-        } catch (exception $e) {
-            return response()->json(['meta' => ['code' => 400], 'message' =>  $e]);
+            $response = [
+                'meta' => [
+                    'code' => 200,
+                    'status'   => 'success',
+                    'message' => 'data menu is successfully updated'
+                ],
+                'data' => []
+            ];
+        } catch (Throwable $e) {
+            $response = [
+                'meta' => [
+                    'code' => 400,
+                    'status'   => 'error',
+                    'message' => $e
+                ],
+                'data' => []
+            ];
         }
+        return response()->json($response);
     }
 
     public function delete($id)
     {
         $menu =  \App\Models\Admin\Menu::find($id);
-        
+
         try {
             $menu->delete();
-            return response()->json(['meta' => ['code' => 200], 'message' => 'success']);
-        } catch (exception $e) {
-            return response()->json(['meta' => ['code' => 400], 'message' =>  $e]);
+            $response = [
+                'meta' => [
+                    'code' => 200,
+                    'status'   => 'success',
+                    'message' => 'data menu is successfully deleted'
+                ],
+                'data' => []
+            ];
+        } catch (Throwable $e) {
+            $response = [
+                'meta' => [
+                    'code' => 400,
+                    'status'   => 'error',
+                    'message' => $e
+                ],
+                'data' => []
+            ];
         }
+        return response()->json($response);
     }
 }
